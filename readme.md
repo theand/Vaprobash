@@ -2,6 +2,8 @@
 
 **Va**grant **Pro**visioning **Bash** Scripts
 
+[View the site and extended docs.](http://fideloper.github.io/Vaprobash/index.html)
+
 ## Goal
 
 The goal of this project is to create easy to use bash scripts in order to provision a Vagrant server.
@@ -141,9 +143,22 @@ $ sudo service nginx reload
 ### Databases
 ---
 
+### CouchDB
+
+This will install the CouchDB database.
+
+To create a new databse:
+
+```bash
+# Execute this command inside the Vagrant box
+$ curl -X PUT localhost:5984/name_of_new_database
+```
+
+You may access the "Futon" web interface for administering CouchDB at: `http://192.168.33.10:5984/_utils/`
+
 ### MySQL
 
-This will install the MySQL 5 database.
+This will install the MySQL 5.5 or 5.6 depending on what you choose on the Vagrantfile.
 
 * Host: `localhost` or `192.168.33.10`
 * Username: `root`
@@ -179,6 +194,12 @@ $ vagrant ssh
 $ sudo -u postgres /usr/bin/createdb --echo --owner=root your_database_name
 ```
 
+### SQLite
+
+This will install the SQLite server.
+
+SQLite runs either in-memory (good for unit testing) or file-based.
+
 
 ### In-Memory Stores
 ---
@@ -196,6 +217,25 @@ This will install Redis (server). There are two options:
 
 You can choose between the two by uncommenting one provision script or the other in the `Vagrantfile`.
 
+### Search
+---
+### ElasticSearch
+
+This will install the ElasticSearch search engine.
+
+
+### Utility (queues)
+---
+
+### Beanstalkd
+
+This will install the Beanstalkd work queue.
+
+This will configure Beanstalkd to start when the server boots.
+
+* Host: `localhost` (`0.0.0.0` default)
+* Port: `11300` (default)
+
 
 ### Additional Languages
 ---
@@ -204,8 +244,12 @@ You can choose between the two by uncommenting one provision script or the other
 
 This will install Node.js `0.10.*`. It will also set global NPM items to be installed in ~/npm/bin (/home/vagrant/npm/bin).
 
+### RVM/Ruby
 
-### Frameworks, etc
+This will install Ruby via RVM. You can decide which version of ruby via the configuration variable found in the `Vagrantfile`. Default is `latest`.
+
+
+### Frameworks and Tooling
 ---
 
 ### Composer
@@ -222,6 +266,13 @@ This will also attempt to change the Apache or Nginx virtual host to point the d
 
 This will install Yeoman globally for you to use in your front-end projects.
 
+### PHPUnit
+
+This will install PHPUnit and make it globally accessible.
+
+### Screen
+
+This will install Screen on the Vagrant machine.
 
 ## The Vagrantfile
 
