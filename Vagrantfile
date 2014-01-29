@@ -12,7 +12,7 @@ mysql_root_password   = "root"   # We'll assume user "root"
 mysql_version         = "5.5"    # Options: 5.5 | 5.6
 pgsql_root_password   = "root"   # We'll assume user "root"
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
-php_version           = "latest" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
+php_version           = "previous" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
 composer_packages     = [        # List any global Composer packages that you want to install
   #"phpunit/phpunit:3.7.*",
   #"codeception/codeception=*",
@@ -22,6 +22,7 @@ nodejs_packages       = [        # List any global NodeJS packages that you want
   #"grunt-cli",
   #"bower",
   #"yo",
+  "gulp"
 ]
 
 Vagrant.configure("2") do |config|
@@ -39,9 +40,9 @@ Vagrant.configure("2") do |config|
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
-            #id: "core",
-            #:nfs => true,
-            #:mount_options => ['nolock,vers=3,udp,noatime']
+#id: "core",
+#:nfs => true,
+#:mount_options => ['nolock,vers=3,udp,noatime']
             :mount_options => [ "dmode=777", "fmode=666"]
 
   # Optionally customize amount of RAM
