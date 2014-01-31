@@ -38,12 +38,20 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
+  config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
+  config.vm.network :forwarded_port, guest: 8080, host: 8000, auto_correct: true
+  config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true
+  config.vm.network :forwarded_port, guest: 5432, host: 5433, auto_correct: true
+
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
 #id: "core",
 #:nfs => true,
 #:mount_options => ['nolock,vers=3,udp,noatime']
             :mount_options => [ "dmode=777", "fmode=666"]
+
+  config.vm.synced_folder "../laravel-vagrant/www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
+  config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
   # Optionally customize amount of RAM
   # allocated to the VM. Default is 384MB
@@ -59,6 +67,9 @@ Vagrant.configure("2") do |config|
 
   # Provision Base Packages
   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/base.sh"
+
+  # Provision Base Packages for theand
+  config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/php.sh", args: php_version
@@ -78,7 +89,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/apache.sh", args: server_ip
 
   # Provision HHVM
-   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/hhvm.sh"
+  #config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/hhvm.sh"
 
   # Provision Nginx Base
   # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/nginx.sh", args: server_ip
@@ -127,7 +138,7 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Install Memcached
-  # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/memcached.sh"
+   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/memcached.sh"
 
   # Provision Redis (without journaling and persistence)
   # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/redis.sh"
