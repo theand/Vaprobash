@@ -8,5 +8,5 @@ sudo apt-get update
 # Install base packages
 sudo apt-get install -y dos2unix debconf-utils w3m reportbug sendmail-bin unzip
 
-sudo apt-get upgrade -y
+#sudo apt-get upgrade -y
 
