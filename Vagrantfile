@@ -11,9 +11,11 @@ server_ip             = "192.168.33.10"
 mysql_root_password   = "root"   # We'll assume user "root"
 mysql_version         = "5.5"    # Options: 5.5 | 5.6
 pgsql_root_password   = "root"   # We'll assume user "root"
+mariadb_version       = "10.0"   # Options: 5.5 | 10.0
+mariadb_root_password = "root"   # We'll assume user "root"
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
 ruby_gems             = [        # List any Ruby Gems that you want to install
-  "jekyll",
+  #"jekyll",
   "sass",
   "compass",
 ]
@@ -24,10 +26,10 @@ composer_packages     = [        # List any global Composer packages that you wa
 ]
 nodejs_version        = "latest" # By default "latest" will equal the latest stable version
 nodejs_packages       = [        # List any global NodeJS packages that you want to install
-  "grunt-cli",
-  "bower",
-  "yo",
-  "gulp"
+  #"grunt-cli",
+  #"bower",
+  #"yo",
+  #"gulp"
 ]
 
 Vagrant.configure("2") do |config|
@@ -122,6 +124,8 @@ Vagrant.configure("2") do |config|
   # Provision MongoDB
   # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/mongodb.sh"
 
+  # Provision MariaDB
+  # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/mariadb.sh", args: [mariadb_root_password, mariadb_version]
 
   ####
   # Search Servers
@@ -146,7 +150,7 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Install Memcached
-   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/memcached.sh"
+  # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/memcached.sh"
 
   # Provision Redis (without journaling and persistence)
   # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/redis.sh"
@@ -191,6 +195,6 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/supervisord.sh"
 
   # Install Mailcatcher
-   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/mailcatcher.sh"
+  # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/mailcatcher.sh"
 
 end
