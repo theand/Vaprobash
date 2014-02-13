@@ -69,6 +69,11 @@ Vagrant.configure("2") do |config|
 
     vb.customize ["modifyvm", :id, "--memory", "512"]
 
+    # Set the timesync threshold to 10 seconds, instead of the default 20 minutes.
+    # If the clock gets more than 15 minutes out of sync (due to your laptop going
+    # to sleep for instance, then some 3rd party services will reject requests.
+    vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
+
   end
 
   ####
@@ -186,7 +191,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/composer.sh", privileged: false, args: composer_packages
 
   # Provision Laravel
-   config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/laravel.sh", args: server_ip
+  # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/laravel.sh", args: server_ip
 
   # Install Screen
    config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/screen.sh"
