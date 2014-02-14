@@ -42,6 +42,8 @@ Vagrant.configure("2") do |config|
   config.vm.define :vaprobash
 
 
+  config.ssh.port = 2222
+
   # Create a hostname, don't forget to put it to the `hosts` file
   config.vm.hostname = "vaprobash.dev"
 
@@ -49,9 +51,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: server_ip
 
   config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
-  config.vm.network :forwarded_port, guest: 8080, host: 8000, auto_correct: true
   config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true
-  config.vm.network :forwarded_port, guest: 5432, host: 5433, auto_correct: true
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
