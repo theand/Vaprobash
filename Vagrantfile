@@ -38,6 +38,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = "precise64"
 
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
+  # If using VMWare Fusion Provider:
+  # config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
   config.vm.define :vaprobash
 
@@ -73,6 +75,13 @@ Vagrant.configure("2") do |config|
     # If the clock gets more than 15 minutes out of sync (due to your laptop going
     # to sleep for instance, then some 3rd party services will reject requests.
     vb.customize ["guestproperty", "set", :id, "/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold", 10000]
+
+  end
+  
+  # If using VMWare Fusion
+  config.vm.provider :vmware_fusion do |vb|
+
+    vb.vmx["memsize"] = "384"
 
   end
 
@@ -189,7 +198,7 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Composer
-   config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: composer_packages
+   config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: composer_packages.join(" ")
 
   # Provision Laravel
   # config.vm.provision "shell", path: "scripts/laravel.sh", args: server_ip
