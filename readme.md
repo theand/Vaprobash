@@ -4,6 +4,8 @@
 
 [View the site and extended docs.](http://fideloper.github.io/Vaprobash/index.html)
 
+[![Build Status](https://travis-ci.org/fideloper/Vaprobash.png?branch=master)](https://travis-ci.org/fideloper/Vaprobash)
+
 ## Goal
 
 The goal of this project is to create easy to use bash scripts in order to provision a Vagrant server.
@@ -16,6 +18,12 @@ Some further assumptions and self-imposed restrictions. If you find yourself nee
 
 * If other OSes need to be used (CentOS, Redhat, Arch, etc).
 * If dependency management becomes complex. For example, installing Laravel depends on Composer. Setting a document root for a project will change depending on Nginx or Apache. Currently, these dependencies are accounted for, but more advanced dependencies will likely not be.
+
+## Dependencies
+
+* Vagrant `1.4.3`+
+    * Use `vagrant -v` to check your version
+* Vitualbox or VMWare Fusion
 
 ## Instructions
 
