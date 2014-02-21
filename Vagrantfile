@@ -29,6 +29,7 @@ composer_packages     = [        # List any global Composer packages that you wa
   #"codeception/codeception=*",
 ]
 laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
+symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony. 
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   #"grunt-cli",
@@ -47,9 +48,6 @@ Vagrant.configure("2") do |config|
   # config.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
 
   config.vm.define :vaprobash
-
-
-  config.ssh.port = 2222
 
   # Create a hostname, don't forget to put it to the `hosts` file
   config.vm.hostname = "vaprobash.dev"
@@ -182,7 +180,7 @@ Vagrant.configure("2") do |config|
 
 
   ####
-  # Utiliy (queue)
+  # Utility (queue)
   ##########
 
   # Install Beanstalkd
@@ -208,6 +206,9 @@ Vagrant.configure("2") do |config|
 
   # Provision Laravel
   # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder]
+
+  # Provision Symfony
+  # config.vm.provision "shell", path: "scripts/symfony.sh", args: [server_ip, symfony_root_folder]
 
   # Install Screen
    config.vm.provision "shell", path: "scripts/screen.sh"
