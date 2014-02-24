@@ -116,6 +116,7 @@ Vagrant.configure("2") do |config|
 
   # Provision Vim
    config.vm.provision "shell", path: "scripts/vim.sh"
+   config.vm.provision "shell", path: "scripts/vim-theand.sh"
 
 
   ####
@@ -148,7 +149,7 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/sqlite.sh"
 
   # Provision Couchbase
-  # config.vm.provision "shell", path: "https://raw.github.com/#{github_username}/#{github_repo}/#{github_branch}/scripts/couchbase.sh"
+  # config.vm.provision "shell", path: "scripts/couchbase.sh"
 
   # Provision CouchDB
   # config.vm.provision "shell", path: "scripts/couchdb.sh"
@@ -219,6 +220,7 @@ Vagrant.configure("2") do |config|
 
   # Provision Laravel
   # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder]
+   config.vm.provision "shell", path: "scripts/laravel-theand.sh"
 
   # Provision Symfony
   # config.vm.provision "shell", path: "scripts/symfony.sh", args: [server_ip, symfony_root_folder]
