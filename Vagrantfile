@@ -128,7 +128,7 @@ Vagrant.configure("2") do |config|
 
   # Provision HHVM
   #Install HHVM & HHVM-FastCGI
-  # config.vm.provision "shell", path: "scripts/hhvm.sh"
+   config.vm.provision "shell", path: "scripts/hhvm.sh"
 
   # Provision Nginx Base
   # config.vm.provision "shell", path: "scripts/nginx.sh", args: server_ip
