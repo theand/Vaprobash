@@ -100,8 +100,6 @@ Vagrant.configure("2") do |config|
 
   # Provision Base Packages
   config.vm.provision "shell", path: "scripts/base.sh"
-
-  # Provision Base Packages for theand
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
@@ -128,7 +126,7 @@ Vagrant.configure("2") do |config|
 
   # Provision HHVM
   #Install HHVM & HHVM-FastCGI
-   config.vm.provision "shell", path: "scripts/hhvm.sh"
+  # config.vm.provision "shell", path: "scripts/hhvm.sh"
 
   # Provision Nginx Base
   # config.vm.provision "shell", path: "scripts/nginx.sh", args: server_ip
