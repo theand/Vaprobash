@@ -1,0 +1,9 @@
+[ -s /home/vagrant/.nvm/nvm.sh ] && . /home/vagrant/.nvm/nvm.sh # This loads NVM
+
+# Add new NPM global packages location to PATH
+export PATH=$PATH:~/npm/bin
+# Add the new NPM root to NODE_PATH
+export NODE_PATH=$NODE_PATH:~/npm/lib/node_modules
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+source $HOME/.bashrc
