@@ -9,6 +9,7 @@ github_branch   = "master"
 # Server Configuration
 server_ip             = "192.168.33.10"
 server_memory         = "512" # MB
+server_timezone       = "Asia/Seoul"
 
 # Database Configuration
 mysql_root_password   = "root"   # We'll assume user "root"
@@ -28,15 +29,16 @@ php_version           = "previous" # Options: latest|previous|distributed   For 
 composer_packages     = [        # List any global Composer packages that you want to install
   #"phpunit/phpunit:3.7.*",
   #"codeception/codeception=*",
+  #"phpspec/phpspec:2.0.*@dev",
 ]
 laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   #"grunt-cli",
+  #"gulp",
   #"bower",
-  #"yo",
-  #"gulp"
+  #"yo"
 ]
 
 Vagrant.configure("2") do |config|
@@ -103,7 +105,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
-  config.vm.provision "shell", path: "scripts/php.sh", args: php_version
+  config.vm.provision "shell", path: "scripts/php.sh", args: [php_version, server_timezone]
   config.vm.provision "shell", path: "scripts/php-theand.sh"
 
   # Enable MSSQL for PHP
@@ -125,7 +127,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/apache.sh", args: server_ip
 
   # Provision HHVM
-  #Install HHVM & HHVM-FastCGI
+  # Install HHVM & HHVM-FastCGI
   # config.vm.provision "shell", path: "scripts/hhvm.sh"
 
   # Provision Nginx Base
@@ -231,5 +233,8 @@ Vagrant.configure("2") do |config|
 
   # Install Mailcatcher
   # config.vm.provision "shell", path: "scripts/mailcatcher.sh"
+
+  # Install git-ftp
+  # config.vm.provision "shell", path: "scripts/git-ftp.sh", privileged: false
 
 end
