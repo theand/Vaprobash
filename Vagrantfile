@@ -7,6 +7,13 @@ github_repo     = "Vaprobash"
 github_branch   = "master"
 
 # Server Configuration
+
+# Set a local private network IP address.
+# See http://en.wikipedia.org/wiki/Private_network for explanation
+# You can use the following IP ranges:
+#   10.0.0.1    - 10.255.255.254
+#   172.16.0.1  - 172.31.255.254
+#   192.168.0.1 - 192.168.255.254
 server_ip             = "192.168.33.10"
 server_memory         = "512" # MB
 server_timezone       = "Asia/Seoul"
@@ -27,10 +34,11 @@ ruby_gems             = [        # List any Ruby Gems that you want to install
 ]
 php_version           = "previous" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
 composer_packages     = [        # List any global Composer packages that you want to install
-  #"phpunit/phpunit:3.7.*",
+  #"phpunit/phpunit:4.0.*",
   #"codeception/codeception=*",
   #"phpspec/phpspec:2.0.*@dev",
 ]
+public_folder         = "/vagrant" # If installing Symfony or Laravel, leave this blank to default to the framework public directory
 laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
@@ -53,6 +61,8 @@ Vagrant.configure("2") do |config|
   config.vm.define :vaprobash
 
   # Create a hostname, don't forget to put it to the `hosts` file
+  # This will point to the server's default virtual host
+  # TO DO: Make this work with virtualhost along-side xip.io URL
   config.vm.hostname = "vaprobash.dev"
 
   # Create a static IP
@@ -124,14 +134,14 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Apache Base
-   config.vm.provision "shell", path: "scripts/apache.sh", args: server_ip
+   config.vm.provision "shell", path: "scripts/apache.sh", args: [server_ip, public_folder]
 
   # Provision HHVM
   # Install HHVM & HHVM-FastCGI
    config.vm.provision "shell", path: "scripts/hhvm.sh"
 
   # Provision Nginx Base
-  # config.vm.provision "shell", path: "scripts/nginx.sh", args: server_ip
+  # config.vm.provision "shell", path: "scripts/nginx.sh", args: [server_ip, public_folder]
 
 
   ####
@@ -200,7 +210,12 @@ Vagrant.configure("2") do |config|
   # Install Beanstalkd
   # config.vm.provision "shell", path: "scripts/beanstalkd.sh"
 
+  # Install Heroku Toolbelt
+  # config.vm.provision "shell", path: "https://toolbelt.heroku.com/install-ubuntu.sh"
 
+  # Install Supervisord
+  # config.vm.provision "shell", path: "scripts/supervisord.sh"
+ 
   ####
   # Additional Languages
   ##########
@@ -219,22 +234,26 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: composer_packages.join(" ")
 
   # Provision Laravel
-  # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder]
+  # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder, public_folder]
    config.vm.provision "shell", path: "scripts/laravel-theand.sh"
 
   # Provision Symfony
-  # config.vm.provision "shell", path: "scripts/symfony.sh", args: [server_ip, symfony_root_folder]
+  # config.vm.provision "shell", path: "scripts/symfony.sh", args: [server_ip, symfony_root_folder, public_folder]
 
   # Install Screen
    config.vm.provision "shell", path: "scripts/screen.sh"
-
-  # Install Supervisord
-   config.vm.provision "shell", path: "scripts/supervisord.sh"
 
   # Install Mailcatcher
   # config.vm.provision "shell", path: "scripts/mailcatcher.sh"
 
   # Install git-ftp
   # config.vm.provision "shell", path: "scripts/git-ftp.sh", privileged: false
+
+  ####
+  # Local Scripts
+  # Any local scripts you may want to run post-provisioning.
+  # Add these to the same directory as the Vagrantfile.
+  ##########
+  # config.vm.provision "shell", path: "./local-script.sh" 
 
 end
