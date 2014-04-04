@@ -172,7 +172,7 @@ Vagrant.configure("2") do |config|
 
   # Provision MySQL
   config.vm.provision "shell", path: "scripts/mysql.sh", args: [mysql_root_password, mysql_version, mysql_enable_remote]
-  config.vm.provision :shell, :path => "scripts/enable_remote_mysql_access.sh"
+  #config.vm.provision :shell, :path => "scripts/enable_remote_mysql_access.sh"
 
   # Provision PostgreSQL
   # config.vm.provision "shell", path: "scripts/pgsql.sh", args: pgsql_root_password
