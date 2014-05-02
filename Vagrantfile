@@ -66,6 +66,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define :vaprobash
 
+
   # Create a hostname, don't forget to put it to the `hosts` file
   # This will point to the server's default virtual host
   # TO DO: Make this work with virtualhost along-side xip.io URL
@@ -90,6 +91,8 @@ Vagrant.configure("2") do |config|
   # If using VirtualBox
   config.vm.provider :virtualbox do |vb|
 
+    vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+
     # Set server memory
     vb.customize ["modifyvm", :id, "--memory", server_memory]
 
@@ -107,7 +110,7 @@ Vagrant.configure("2") do |config|
   # If using VMWare Fusion
   config.vm.provider "vmware_fusion" do |vb, override|
     override.vm.box_url = "http://files.vagrantup.com/precise64_vmware.box"
-    
+
     # Set server memory
     vb.vmx["memsize"] = server_memory
 
