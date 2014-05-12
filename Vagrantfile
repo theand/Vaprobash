@@ -8,6 +8,8 @@ github_branch   = "master"
 
 # Server Configuration
 
+hostname        = "vaprobash14.dev"
+
 # Set a local private network IP address.
 # See http://en.wikipedia.org/wiki/Private_network for explanation
 # You can use the following IP ranges:
@@ -23,7 +25,6 @@ mysql_root_password   = "root"   # We'll assume user "root"
 mysql_version         = "5.5"    # Options: 5.5 | 5.6
 mysql_enable_remote   = "true"  # remote access enabled when true
 pgsql_root_password   = "root"   # We'll assume user "root"
-mariadb_version       = "10.0"   # Options: 5.5 | 10.0
 mariadb_root_password = "root"   # We'll assume user "root"
 
 # Languages and Packages
@@ -34,12 +35,10 @@ ruby_gems             = [        # List any Ruby Gems that you want to install
   "compass",
 ]
 
-# HHVM Options
-hhvm_use_fastcgi      = "false"  # Use HHVM as FastCGI (over php-fpm)
-hhvm_over_php         = "false"  # Symlink HHVM to PHP, so calls to PHP run via HHVM
+# To install HHVM instead of PHP, set this to "true"
+hhvm                  = "true"
 
 # PHP Options
-php_version           = "previous" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
 composer_packages     = [        # List any global Composer packages that you want to install
   #"phpunit/phpunit:4.0.*",
   #"codeception/codeception=*",
@@ -47,30 +46,29 @@ composer_packages     = [        # List any global Composer packages that you wa
   #"squizlabs/php_codesniffer:1.5.*",
 ]
 public_folder         = "/var/www" # If installing Symfony or Laravel, leave this blank to default to the framework public directory
-laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
-symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
+laravel_root_folder   = "/var/www/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
+laravel_version       = "latest-stable" # If you need a specific version of Laravel, set it here
+symfony_root_folder   = "/var/www/symfony" # Where to install Symfony.
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
-  #"grunt-cli",
-  #"gulp",
-  #"bower",
-  #"yo"
+  "grunt-cli",
+  "gulp",
+  "bower",
+  "yo"
 ]
 
 Vagrant.configure("2") do |config|
 
-  # Set server to Ubuntu 12.04
-  config.vm.box = "precise64"
+  # Set server to Ubuntu 14.04
+  config.vm.box = "ubuntu/trusty64"
 
-  config.vm.box_url = "http://files.vagrantup.com/precise64.box"
-
-  config.vm.define :vaprobash
+  config.vm.define :vaprobash14
 
 
   # Create a hostname, don't forget to put it to the `hosts` file
   # This will point to the server's default virtual host
   # TO DO: Make this work with virtualhost along-side xip.io URL
-  config.vm.hostname = "vaprobash.dev"
+  config.vm.hostname = hostname
 
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
@@ -138,14 +136,11 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
-  config.vm.provision "shell", path: "scripts/php.sh", args: [php_version, server_timezone]
+  config.vm.provision "shell", path: "scripts/php.sh", args: [server_timezone, hhvm]
   config.vm.provision "shell", path: "scripts/php-theand.sh"
 
   # Enable MSSQL for PHP
   # config.vm.provision "shell", path: "scripts/mssql.sh"
-
-  # Provision Oh-My-Zsh
-  # config.vm.provision "shell", path: "scripts/zsh.sh"
 
   # Provision Vim
    config.vm.provision "shell", path: "scripts/vim.sh"
@@ -157,16 +152,10 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Apache Base
-   config.vm.provision "shell", path: "scripts/apache.sh", args: [server_ip, public_folder]
+   config.vm.provision "shell", path: "scripts/apache.sh", args: [server_ip, public_folder, hostname]
 
   # Provision Nginx Base
-  # config.vm.provision "shell", path: "scripts/nginx.sh", args: [server_ip, public_folder]
-
-  # Provision HHVM & HHVM-FastCGI
-  # Note: Should be installed after either Apache or Nginx, incase one of these are installed.
-  #       It's suggested that you do NOT install php if you are using HHVM. HHVM is meant to be used as a replacement.
-  #       Installing HHVM and PHP will install PHP-FPM ~AND~ HHVM, both of which may vie for Nginx's Apache's attention
-   config.vm.provision "shell", path: "scripts/hhvm.sh", args: [hhvm_use_fastcgi, hhvm_over_php]
+  # config.vm.provision "shell", path: "scripts/nginx.sh", args: [server_ip, public_folder, hostname]
 
 
   ####
@@ -264,7 +253,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: composer_packages.join(" ")
 
   # Provision Laravel
-  # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder, public_folder]
+  # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder, public_folder, laravel_version]
    config.vm.provision "shell", path: "scripts/laravel-theand.sh"
 
   # Provision Symfony
