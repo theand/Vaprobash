@@ -16,7 +16,7 @@ hostname        = "vaprobash14.dev"
 #   10.0.0.1    - 10.255.255.254
 #   172.16.0.1  - 172.31.255.254
 #   192.168.0.1 - 192.168.255.254
-server_ip             = "192.168.22.10"
+server_ip             = "192.168.22.12"
 server_memory         = "512" # MB
 server_timezone       = "Asia/Seoul"
 
@@ -45,10 +45,10 @@ composer_packages     = [        # List any global Composer packages that you wa
   #"phpspec/phpspec:2.0.*@dev",
   #"squizlabs/php_codesniffer:1.5.*",
 ]
-public_folder         = "/var/www" # If installing Symfony or Laravel, leave this blank to default to the framework public directory
-laravel_root_folder   = "/var/www/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
+public_folder         = "/vagrant" # If installing Symfony or Laravel, leave this blank to default to the framework public directory
+laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
 laravel_version       = "latest-stable" # If you need a specific version of Laravel, set it here
-symfony_root_folder   = "/var/www/symfony" # Where to install Symfony.
+symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   "grunt-cli",
@@ -73,8 +73,9 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
-  config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
-  config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true
+  config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8880, auto_correct: true
+  config.vm.network :forwarded_port, guest: 3306, host: 8881, auto_correct: true
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
@@ -83,7 +84,7 @@ Vagrant.configure("2") do |config|
 #:mount_options => ['nolock,vers=3,udp,noatime']
 :mount_options => [ "dmode=777", "fmode=666"]
 
-  config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
+  #config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
   # If using VirtualBox
@@ -137,7 +138,7 @@ Vagrant.configure("2") do |config|
 
   # Provision PHP
   config.vm.provision "shell", path: "scripts/php.sh", args: [server_timezone, hhvm]
-  config.vm.provision "shell", path: "scripts/php-theand.sh"
+  #config.vm.provision "shell", path: "scripts/php-theand.sh"
 
   # Enable MSSQL for PHP
   # config.vm.provision "shell", path: "scripts/mssql.sh"
@@ -185,7 +186,7 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/mongodb.sh"
 
   # Provision MariaDB
-  # config.vm.provision "shell", path: "scripts/mariadb.sh", args: [mariadb_root_password, mariadb_version]
+  # config.vm.provision "shell", path: "scripts/mariadb.sh", args: mariadb_root_password
 
   ####
   # Search Servers
@@ -243,7 +244,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version)
 
   # Install Ruby Version Manager (RVM)
-   config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
+  # config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
 
   ####
   # Frameworks and Tooling
@@ -260,7 +261,7 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/symfony.sh", args: [server_ip, symfony_root_folder, public_folder]
 
   # Install Screen
-   config.vm.provision "shell", path: "scripts/screen.sh"
+  # config.vm.provision "shell", path: "scripts/screen.sh"
 
   # Install Mailcatcher
   # config.vm.provision "shell", path: "scripts/mailcatcher.sh"
