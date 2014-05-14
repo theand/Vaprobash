@@ -5,6 +5,7 @@
 github_username = "fideloper"
 github_repo     = "Vaprobash"
 github_branch   = "master"
+github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github_repo}/#{github_branch}"
 
 # Server Configuration
 
@@ -45,10 +46,16 @@ composer_packages     = [        # List any global Composer packages that you wa
   #"phpspec/phpspec:2.0.*@dev",
   #"squizlabs/php_codesniffer:1.5.*",
 ]
-public_folder         = "/vagrant" # If installing Symfony or Laravel, leave this blank to default to the framework public directory
+
+# Default web server document root
+# Symfony's public directory is assumed "web"
+# Laravel's public directory is assumed "public"
+public_folder         = "/vagrant"
+
 laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
 laravel_version       = "latest-stable" # If you need a specific version of Laravel, set it here
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
+
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   "grunt-cli",
@@ -133,18 +140,19 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Base Packages
-  config.vm.provision "shell", path: "scripts/base.sh"
+  config.vm.provision "shell", path: "scripts/base.sh", args: github_url
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
   config.vm.provision "shell", path: "scripts/php.sh", args: [server_timezone, hhvm]
   #config.vm.provision "shell", path: "scripts/php-theand.sh"
 
+
   # Enable MSSQL for PHP
   # config.vm.provision "shell", path: "scripts/mssql.sh"
 
   # Provision Vim
-   config.vm.provision "shell", path: "scripts/vim.sh"
+   config.vm.provision "shell", path: "scripts/vim.sh", args: github_url
    config.vm.provision "shell", path: "scripts/vim-theand.sh"
 
 
@@ -153,10 +161,10 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Apache Base
-   config.vm.provision "shell", path: "scripts/apache.sh", args: [server_ip, public_folder, hostname]
+   config.vm.provision "shell", path: "scripts/apache.sh", args: [server_ip, public_folder, hostname, github_url]
 
   # Provision Nginx Base
-  # config.vm.provision "shell", path: "scripts/nginx.sh", args: [server_ip, public_folder, hostname]
+  # config.vm.provision "shell", path: "scripts/nginx.sh", args: [server_ip, public_folder, hostname, github_url]
 
 
   ####
@@ -241,7 +249,7 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Install Nodejs
-   config.vm.provision "shell", path: "scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version)
+   config.vm.provision "shell", path: "scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version, github_url)
 
   # Install Ruby Version Manager (RVM)
   # config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
@@ -258,7 +266,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/laravel-theand.sh"
 
   # Provision Symfony
-  # config.vm.provision "shell", path: "scripts/symfony.sh", args: [server_ip, symfony_root_folder, public_folder]
+  # config.vm.provision "shell", path: "scripts/symfony.sh", privileged: false, args: [server_ip, symfony_root_folder, public_folder]
 
   # Install Screen
   # config.vm.provision "shell", path: "scripts/screen.sh"
