@@ -19,10 +19,11 @@ fi
 sudo add-apt-repository -y ppa:ondrej/apache2
 
 # Update Again
+sudo apt-key update
 sudo apt-get update
 
 # Install Apache
-sudo apt-get install -y apache2-mpm-event libapache2-mod-fastcgi
+sudo apt-get install -y --force-yes  apache2-mpm-event libapache2-mod-fastcgi
 
 echo ">>> Configuring Apache"
 
@@ -34,6 +35,7 @@ sudo mv vhost /usr/local/bin
 
 # Create a virtualhost to start, with SSL certificate
 sudo vhost -s $1.xip.io -d $public_folder -p /etc/ssl/xip.io -c xip.io
+sudo a2dissite 000-default
 
 if [[ $PHP_IS_INSTALLED -eq 0 ]]; then
     # PHP Config for Apache
@@ -51,6 +53,10 @@ if [[ $PHP_IS_INSTALLED -eq 0 ]]; then
     </IfModule>
 EOF
     sudo a2enconf php5-fpm
+		sudo a2enmod proxy_fcgi
+		# Add ProxyPassMatch to pass to php in document root
+    sudo sed -i "s@#ProxyPassMatch.*@ProxyPassMatch ^/(.*\\\.php(/.*)?)$ fcgi://127.0.0.1:9000"$public_folder"/\$1@" /etc/apache2/sites-available/$1.xip.io.conf
+
 fi
 
 sudo service apache2 restart
