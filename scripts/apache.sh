@@ -56,6 +56,7 @@ EOF
 		sudo a2enmod proxy_fcgi
 		# Add ProxyPassMatch to pass to php in document root
     sudo sed -i "s@#ProxyPassMatch.*@ProxyPassMatch ^/(.*\\\.php(/.*)?)$ fcgi://127.0.0.1:9000"$public_folder"/\$1@" /etc/apache2/sites-available/$1.xip.io.conf
+		sudo chmod 777 /var/lib/apache2/fastcgi -R
 
 fi
 
