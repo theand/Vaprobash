@@ -75,6 +75,8 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
+  #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
+  #config.vm.network :forwarded_port, guest: 22, host: 2230, id: 'ssh', auto_correct: true
   config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
   config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true
 
