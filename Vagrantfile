@@ -77,15 +77,17 @@ Vagrant.configure("2") do |config|
 
   #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
   #config.vm.network :forwarded_port, guest: 22, host: 2230, id: 'ssh', auto_correct: true
-  config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true
-  config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true #apache2
+  config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true #mysqld
+  config.vm.network :forwarded_port, guest: 1025 , host: 8880, auto_correct: true #mailcatcher smtp
+  config.vm.network :forwarded_port, guest: 1080 , host: 8881, auto_correct: true #mailcatcher http
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
 #id: "core",
 #:nfs => true,
 #:mount_options => ['nolock,vers=3,udp,noatime']
-:mount_options => [ "dmode=777", "fmode=666"]
+:mount_options => [ "dmode=777", "fmode=777"]
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
@@ -276,7 +278,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/screen.sh"
 
   # Install Mailcatcher
-  # config.vm.provision "shell", path: "scripts/mailcatcher.sh"
+   config.vm.provision "shell", path: "scripts/mailcatcher.sh"
 
   # Install git-ftp
   # config.vm.provision "shell", path: "scripts/git-ftp.sh", privileged: false
