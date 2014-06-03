@@ -1,0 +1,7 @@
+{
+    "require": {
+        "d11wtq/boris": "1.*",
+	    "tobiassjosten/boris-loader": "dev-master",
+        "monolog/monolog": "dev-master"
+    }
+}
