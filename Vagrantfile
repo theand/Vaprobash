@@ -19,6 +19,7 @@ hostname        = "vaprobash14.dev"
 #   192.168.0.1 - 192.168.255.254
 server_ip             = "192.168.22.12"
 server_memory         = "512" # MB
+server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
 server_timezone       = "Asia/Seoul"
 
 # Database Configuration
@@ -139,13 +140,12 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Base Packages
-  config.vm.provision "shell", path: "scripts/base.sh", args: github_url
+  config.vm.provision "shell", path: "scripts/base.sh", args: [github_url, server_swap]
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
   config.vm.provision "shell", path: "scripts/php.sh", args: [server_timezone, hhvm]
   #config.vm.provision "shell", path: "scripts/php-theand.sh"
-
 
   # Enable MSSQL for PHP
   # config.vm.provision "shell", path: "scripts/mssql.sh"
