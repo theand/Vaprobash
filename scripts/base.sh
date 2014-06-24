@@ -12,7 +12,8 @@ fi
 sudo apt-get update
 
 # Install base packages
-sudo apt-get install -y unzip git-core ack-grep vim tmux curl wget build-essential python-software-properties
+# -qq implies -y --force-yes
+sudo apt-get install -qq curl unzip git-core ack-grep vim tmux wget build-essential python-software-properties
 
 # Git Config and set Owner
 curl --silent -L $github_url/helpers/gitconfig > /home/vagrant/.gitconfig
