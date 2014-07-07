@@ -80,16 +80,19 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
+  #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
-  config.vm.network :forwarded_port, guest: 80, host: 8880, auto_correct: true
-  config.vm.network :forwarded_port, guest: 3306, host: 8881, auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8800, auto_correct: true #apache2
+  config.vm.network :forwarded_port, guest: 3306, host: 8801, auto_correct: true #mysqld
+  config.vm.network :forwarded_port, guest: 1025 , host: 8825, auto_correct: true #mailcatcher smtp
+  config.vm.network :forwarded_port, guest: 1080 , host: 8826, auto_correct: true #mailcatcher http
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
 #id: "core",
 #:nfs => true,
 #:mount_options => ['nolock,vers=3,udp,noatime']
-:mount_options => [ "dmode=777", "fmode=666"]
+:mount_options => [ "dmode=777", "fmode=777"]
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
@@ -251,7 +254,7 @@ Vagrant.configure("2") do |config|
    config.vm.provision "shell", path: "scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version, github_url)
 
   # Install Ruby Version Manager (RVM)
-  # config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
+   config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
 
   ####
   # Frameworks and Tooling
@@ -268,10 +271,10 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/symfony.sh", privileged: false, args: [server_ip, symfony_root_folder, public_folder]
 
   # Install Screen
-  # config.vm.provision "shell", path: "scripts/screen.sh"
+   config.vm.provision "shell", path: "scripts/screen.sh"
 
   # Install Mailcatcher
-  # config.vm.provision "shell", path: "scripts/mailcatcher.sh"
+   config.vm.provision "shell", path: "scripts/mailcatcher.sh"
 
   # Install git-ftp
   # config.vm.provision "shell", path: "scripts/git-ftp.sh", privileged: false
