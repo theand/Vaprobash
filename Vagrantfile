@@ -51,10 +51,10 @@ laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `com
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
 nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
-  #"grunt-cli",
-  #"gulp",
-  #"bower",
-  #"yo"
+  "grunt-cli",
+  "gulp",
+  "bower",
+  "yo"
 ]
 
 Vagrant.configure("2") do |config|
