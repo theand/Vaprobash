@@ -80,7 +80,7 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
-  #SSH Æ÷Æ®¸¦ ¹Ù²Ù°í ½ÍÀ» ¶§´Â ¾Æ·¡ ³»¿ëÀ» ÁÖ¼®Ã³¸®ÇÏ°í host: ¿¡ ¿øÇÏ´Â Æ÷Æ® ¹øÈ£ ±âÀÔ.
+  #SSH í¬íŠ¸ë¥¼ ë°”ê¾¸ê³  ì‹¶ì„ ë•ŒëŠ” ì•„ë˜ ë‚´ìš©ì„ ì£¼ì„ì²˜ë¦¬í•˜ê³  host: ì— ì›í•˜ëŠ” í¬íŠ¸ ë²ˆí˜¸ ê¸°ì….
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
   config.vm.network :forwarded_port, guest: 80, host: 8800, auto_correct: true #apache2
   config.vm.network :forwarded_port, guest: 3306, host: 8801, auto_correct: true #mysqld
