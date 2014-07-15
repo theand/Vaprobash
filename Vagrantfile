@@ -29,7 +29,7 @@ mariadb_root_password = "root"   # We'll assume user "root"
 # Languages and Packages
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
 ruby_gems             = [        # List any Ruby Gems that you want to install
-  #"jekyll",
+  "jekyll",
   "sass",
   "compass",
 ]
@@ -81,6 +81,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true #mysqld
   config.vm.network :forwarded_port, guest: 1025 , host: 8880, auto_correct: true #mailcatcher smtp
   config.vm.network :forwarded_port, guest: 1080 , host: 8881, auto_correct: true #mailcatcher http
+  config.vm.network :forwarded_port, guest: 4000 , host: 8884, auto_correct: true #jekyll
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
@@ -255,7 +256,7 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Install Nodejs
-   config.vm.provision "shell", path: "scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version)
+   config.vm.provision "shell", path: "scripts/nodejs.sh", args: nodejs_packages.unshift(nodejs_version)
 
   # Install Ruby Version Manager (RVM)
    config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
