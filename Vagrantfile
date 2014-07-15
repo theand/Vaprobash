@@ -31,7 +31,7 @@ pgsql_root_password   = "root"   # We'll assume user "root"
 # Languages and Packages
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
 ruby_gems             = [        # List any Ruby Gems that you want to install
-  #"jekyll",
+  "jekyll",
   "sass",
   "compass",
 ]
@@ -86,6 +86,7 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 3306, host: 8801, auto_correct: true #mysqld
   config.vm.network :forwarded_port, guest: 1025 , host: 8825, auto_correct: true #mailcatcher smtp
   config.vm.network :forwarded_port, guest: 1080 , host: 8826, auto_correct: true #mailcatcher http
+  config.vm.network :forwarded_port, guest: 4000 , host: 8804, auto_correct: true #jekyll
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
