@@ -42,9 +42,14 @@ sudo apt-get install -qq apache2 apache2-mpm-event
 
 echo ">>> Configuring Apache"
 
+# Add vagrant user to www-data group
+sudo usermod -a -G www-data vagrant
 
 # Apache Config
-sudo a2dismod php5 mpm_prefork
+# On separate lines since some may cause an error 
+# if not installed
+sudo a2dismod mpm_prefork
+sudo a2dismod php5 
 sudo a2enmod mpm_worker rewrite actions ssl
 curl --silent -L $github_url/helpers/vhost.sh > vhost
 sudo chmod guo+x vhost
