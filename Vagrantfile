@@ -96,6 +96,7 @@ Vagrant.configure("2") do |config|
 :mount_options => [ "dmode=777", "fmode=777"]
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
+  config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
   # If using VirtualBox
