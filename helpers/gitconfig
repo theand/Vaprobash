@@ -1,3 +1,8 @@
+[core]
+    precomposeunicode = true
+    filemode = false
+
+
 [alias]
     #Basic
     st = status -sb
