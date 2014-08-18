@@ -20,6 +20,11 @@ hostname        = "vaprobash14.dev"
 server_ip             = "192.168.22.12"
 server_memory         = "512" # MB
 server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
+
+# UTC        for Universal Coordinated Time
+# EST        for Eastern Standard Time
+# US/Central for American Central
+# US/Eastern for American Eastern
 server_timezone       = "Asia/Seoul"
 
 # Database Configuration
@@ -29,6 +34,7 @@ mysql_enable_remote   = "true"  # remote access enabled when true
 pgsql_root_password   = "root"   # We'll assume user "root"
 
 # Languages and Packages
+php_timezone          = "Asia/Seoul"    # http://php.net/manual/en/timezones.php
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
 ruby_gems             = [        # List any Ruby Gems that you want to install
   "jekyll",
@@ -69,7 +75,8 @@ Vagrant.configure("2") do |config|
   # Set server to Ubuntu 14.04
   config.vm.box = "ubuntu/trusty64"
 
-  config.vm.define :vaprobash14
+  config.vm.define :vaprobash14 do |vapro|
+  end
 
 
   # Create a hostname, don't forget to put it to the `hosts` file
@@ -80,7 +87,7 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
-  #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
+  #Port Forwarding
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
   config.vm.network :forwarded_port, guest: 80, host: 8800, auto_correct: true #apache2
   config.vm.network :forwarded_port, guest: 3306, host: 8801, auto_correct: true #mysqld
@@ -90,10 +97,10 @@ Vagrant.configure("2") do |config|
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
-#id: "core",
-#:nfs => true,
-#:mount_options => ['nolock,vers=3,udp,noatime']
-:mount_options => [ "dmode=777", "fmode=777"]
+		#id: "core",
+		#:nfs => true,
+		#:mount_options => ['nolock,vers=3,udp,noatime']
+		:mount_options => [ "dmode=777", "fmode=777"]
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}
@@ -103,6 +110,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
 
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+    vb.name = "vaprobash14"
 
     # Set server memory
     vb.customize ["modifyvm", :id, "--memory", server_memory]
@@ -139,6 +147,7 @@ Vagrant.configure("2") do |config|
         mount_options: ['rw', 'vers=3', 'tcp', 'nolock']
     }
   end
+
   # Adding vagrant-digitalocean provider - https://github.com/smdahlen/vagrant-digitalocean
   # Needs to ensure that the vagrant plugin is installed
   config.vm.provider :digital_ocean do |provider, override|
@@ -151,16 +160,21 @@ Vagrant.configure("2") do |config|
     provider.region = 'nyc2'
     provider.size = '512mb'
   end
+
   ####
   # Base Items
   ##########
+
+  # Set the server timezone
+  config.vm.provision "shell",
+    inline: "echo setting timezone to #{server_timezone}; ln -sf /usr/share/zoneinfo/#{server_timezone} /etc/localtime"
 
   # Provision Base Packages
   config.vm.provision "shell", path: "scripts/base.sh", args: [github_url, server_swap]
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # Provision PHP
-  config.vm.provision "shell", path: "scripts/php.sh", args: [server_timezone, hhvm]
+  config.vm.provision "shell", path: "scripts/php.sh", args: [php_timezone, hhvm]
   #config.vm.provision "shell", path: "scripts/php-theand.sh"
 
   # Enable MSSQL for PHP
@@ -258,6 +272,9 @@ Vagrant.configure("2") do |config|
 
   # Install Supervisord
   # config.vm.provision "shell", path: "scripts/supervisord.sh"
+
+  # Install ØMQ
+  # config.vm.provision "shell", path: "scripts/scripts/zeromq.sh"
 
   ####
   # Additional Languages
