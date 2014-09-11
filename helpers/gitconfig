@@ -1,7 +1,42 @@
 [core]
+    autocrlf = false
+    safecrlf = true
+    eol       = lf
+    pager = less -FRSX
+    whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+    editor = vim -f
     precomposeunicode = true
     filemode = false
 
+[color]
+    branch = auto
+    diff = auto
+    interactive = auto
+    pager = true
+    status = auto
+    ui = true
+[color "status"]
+    added = green
+    changed = yellow
+    untracked = red
+[color "branch"]
+    current = magenta
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow
+    frag = magenta
+    old = red
+    new = green
+
+[push]
+    default = current
+[help]
+    autocorrect = 1
+
+[i18n]
+    #logoutputencoding = cp949
+    commitencoding = utf-8
 
 [alias]
     #Basic
@@ -22,11 +57,32 @@
 
     #Log
     last = log -1 HEAD
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
 
     #Push/pull/commit
     pdev = push origin develop
     udev = pull origin develop
+    pm = push -u origin master
+    pd = push -u origin develo
     amend = commit --amend
-    cm = commit
+    ci = commit
     cmm = commit -m
+
+    # Etc
+    me = config user.name
+    cm = checkout master
+    cd = checkout develop
+    fe = fetch origin
+    fork = checkout -b
+    ba = branch -a
+    da = difftool -d
+    unstage = reset HEAD --
+    undo = checkout --
+    backup = !tar -cvzf ../git_backup.tgz *
+
+#[rerere]
+#    enabled = true
+#[grep]
+#    extendedregexp = true
+#    linenumber = true
+
