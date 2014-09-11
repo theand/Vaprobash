@@ -54,7 +54,9 @@ nodejs_packages       = [          # List any global NodeJS packages that you wa
   "grunt-cli",
   "gulp",
   "bower",
-  "yo"
+  "yo",
+  "gig",
+  "locally"
 ]
 
 Vagrant.configure("2") do |config|
