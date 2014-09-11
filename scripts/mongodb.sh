@@ -26,7 +26,7 @@ PHP_IS_INSTALLED=$?
 
 if [ $PHP_IS_INSTALLED -eq 0 ]; then
     # install dependencies
-    sudo apt-get -y install php-pear php5-dev
+    sudo apt-get -qq install php-pear php5-dev
 
     # install php extencion
     echo "no" > answers.txt
