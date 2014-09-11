@@ -83,7 +83,7 @@ if [[ ! -z $2 && ! $2 =~ false && $2 =~ ^[0-9]*$ ]]; then
     # Add some swap settings:
     # vm.swappiness=10: Means that there wont be a Swap file until memory hits 90% useage
     # vm.vfs_cache_pressure=50: read http://rudd-o.com/linux-and-free-software/tales-from-responsivenessland-why-linux-feels-slow-and-how-to-fix-that
-    printf "vm.swappiness=10\nvm.vfs_cache_pressure=50" | tee -a /etc/sysctl.conf && sysctl -p
+    printf "vm.swappiness=10\nvm.vfs_cache_pressure=50\n" | tee -a /etc/sysctl.conf && sysctl -p
 
 fi
 
