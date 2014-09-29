@@ -37,7 +37,7 @@ if [[ ! -z $COMPOSER_PACKAGES ]]; then
         # Ensure COMPOSER_HOME variable is set. This isn't set by Composer automatically
         printf "\nCOMPOSER_HOME=\"/home/vagrant/.composer\"" >> /home/vagrant/.profile
         # Add composer home vendor bin dir to PATH to run globally installed executables
-        printf "\n# Add Composer Global Bin to PATH\n%s" 'export PATH=$PATH:$COMPOSER_HOME/vendor/bin' >> /home/vagrant/.profile
+        printf "\n# Add Composer Global Bin to PATH\n%s\n" 'export PATH=$PATH:$COMPOSER_HOME/vendor/bin' >> /home/vagrant/.profile
 
         # Source the .profile to pick up changes
         . /home/vagrant/.profile
@@ -48,7 +48,7 @@ if [[ ! -z $COMPOSER_PACKAGES ]]; then
         # Ensure COMPOSER_HOME variable is set. This isn't set by Composer automatically
         printf "\nCOMPOSER_HOME=\"/home/vagrant/.composer\"" >> /home/vagrant/.zshrc
         # Add composer home vendor bin dir to PATH to run globally installed executables
-        printf "\n# Add Composer Global Bin to PATH\n%s" 'export PATH=$PATH:$COMPOSER_HOME/vendor/bin' >> /home/vagrant/.zshrc
+        printf "\n# Add Composer Global Bin to PATH\n%s\n" 'export PATH=$PATH:$COMPOSER_HOME/vendor/bin' >> /home/vagrant/.zshrc
 
         # Source the .zshrc to pick up changes
         . /home/vagrant/.zshrc
