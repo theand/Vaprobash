@@ -16,6 +16,8 @@ else
     github_url="$1"
 fi
 
+cat /vagrant/helpers/bash_aliases > /home/vagrant/.bash_aliases
+
 # Update
 sudo apt-get update
 

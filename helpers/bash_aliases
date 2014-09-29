@@ -1,0 +1,9 @@
+
+
+function update_git_all(){
+    for DIR in *;
+    do
+        echo "Processing : $DIR/"
+        [[ -d $DIR ]] && [[ -d $DIR/.git ]] && cd $DIR && git pull && cd .. ;
+    done
+}
