@@ -24,7 +24,7 @@ sudo apt-get update
 sudo apt-get install -qq curl unzip git-core ack-grep vim tmux wget build-essential python-software-properties software-properties-common
 
 # Git Config and set Owner
-curl --silent -L $github_url/helpers/gitconfig > /home/vagrant/.gitconfig
+cat /vagrant/helpers/gitconfig > /home/vagrant/.gitconfig
 sudo chown vagrant:vagrant /home/vagrant/.gitconfig
 
 # Common fixes for git
