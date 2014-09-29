@@ -47,6 +47,9 @@ else
     if [[ -f "/home/vagrant/.profile" ]]; then
         . /home/vagrant/.profile
     fi
+
+    # copy .gemrc
+    cat /vagrant/helpers/gemrc > /home/vagrant/.gemrc
 fi
 
 # Install (optional) Ruby Gems
