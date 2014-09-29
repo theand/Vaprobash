@@ -11,7 +11,7 @@ echo deb http://dl.hhvm.com/ubuntu precise main | sudo tee /etc/apt/sources.list
 sudo apt-get update
 
 # Install HHVM
-sudo apt-get install -y --force-yes hhvm
+sudo apt-get install -qq hhvm
 
 # Use as FastCGI?
 if [ "$1" == "true" ]; then
