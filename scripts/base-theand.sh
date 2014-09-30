@@ -5,6 +5,8 @@ echo ">>> Installing Base Packages for theand"
 sudo add-apt-repository ppa:nilarimogard/webupd8
 
 # Update
+sudo launchpad-getkeys
+sudo apt-key update
 sudo apt-get update
 
 # Install base packages

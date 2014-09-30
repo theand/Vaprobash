@@ -31,8 +31,8 @@ fi
 # (Required to remove conflicts with PHP PPA due to partial Apache upgrade within it)
 sudo add-apt-repository -y ppa:ondrej/apache2
 
-
 # Update Again
+sudo launchpad-getkeys
 sudo apt-key update
 sudo apt-get update
 

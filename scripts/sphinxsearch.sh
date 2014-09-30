@@ -10,6 +10,8 @@
 sudo add-apt-repository -y ppa:builds/sphinxsearch-beta     # 2.1.*  on Precise
 
 # The usual updates
+sudo launchpad-getkeys
+sudo apt-key update
 sudo apt-get update
 
 # Install SphinxSearch

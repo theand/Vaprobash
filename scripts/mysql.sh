@@ -11,6 +11,8 @@ if [ $2 == "5.6" ]; then
 	sudo add-apt-repository -y ppa:ondrej/mysql-5.6
 
 	# Update Again
+	sudo launchpad-getkeys
+	sudo apt-key update
 	sudo apt-get update
 
 	# Change package

@@ -5,6 +5,10 @@ echo ">>> Installing Redis"
 # Add repository
 sudo apt-add-repository ppa:rwky/redis -y
 
+sudo launchpad-getkeys
+sudo apt-key update
+sudo apt-get update
+
 # Install Redis
 # -qq implies -y --force-yes
 sudo apt-get install -qq redis-server

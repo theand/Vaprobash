@@ -38,6 +38,8 @@ fi
 sudo add-apt-repository -y ppa:nginx/stable
 
 # Update Again
+sudo launchpad-getkeys
+sudo apt-key update
 sudo apt-get update
 
 # Install Nginx
