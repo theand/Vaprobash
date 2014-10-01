@@ -173,7 +173,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # optimize base box
-  config.vm.provision "shell", path: "#{github_url}/scripts/base_box_optimizations.sh", 
+  config.vm.provision "shell", path: "scripts/base_box_optimizations.sh", 
     privileged: true
 
   # Provision PHP
