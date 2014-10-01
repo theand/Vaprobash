@@ -6,3 +6,6 @@ laravel
 play
 www/laravel-master/
 www/
+
+# editor backup files
+*~
