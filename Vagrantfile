@@ -52,6 +52,7 @@ composer_packages     = [        # List any global Composer packages that you wa
   #"codeception/codeception=*",
   #"phpspec/phpspec:2.0.*@dev",
   #"squizlabs/php_codesniffer:1.5.*",
+  "laravel/installer=~1.1"
 ]
 
 # Default web server document root
@@ -297,7 +298,6 @@ Vagrant.configure("2") do |config|
 
   # Provision Laravel
   # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder, public_folder, laravel_version]
-   config.vm.provision "shell", path: "scripts/laravel-theand.sh"
 
   # Provision Symfony
   # config.vm.provision "shell", path: "scripts/symfony.sh", privileged: false, args: [server_ip, symfony_root_folder, public_folder]

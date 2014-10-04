@@ -29,8 +29,9 @@ if [[ $COMPOSER_IS_INSTALLED -ne 0 ]]; then
 
         # Add an alias that will allow us to use composer without timeout's
         printf "\n# Add an alias for sudo\n%s\n# Use HHVM when using Composer\n%s\n" \
-        "alias sudo=\"sudo \"" \
-        "alias composer=\"hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 -v Eval.Jit=false /usr/local/bin/composer\"" \
+        "alias sudo=\"sudo \"\n" \
+        "alias composer=\"hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 -v Eval.Jit=false /usr/local/bin/composer\"\n" \
+        "alias laravel=\"hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 -v Eval.Jit=false ~/.composer/vendor/bin/laravel\"\n" \
         >> "/home/vagrant/.profile"
 
         # Resource .profile
