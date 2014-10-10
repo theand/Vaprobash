@@ -4,7 +4,7 @@
 # Config Github Settings
 github_username = "fideloper"
 github_repo     = "Vaprobash"
-github_branch   = "1.1.0"
+github_branch   = "1.2.0"
 github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github_repo}/#{github_branch}"
 
 # Server Configuration
@@ -310,6 +310,9 @@ Vagrant.configure("2") do |config|
 
   # Install git-ftp
   # config.vm.provision "shell", path: "scripts/git-ftp.sh", privileged: false
+
+  # Install Ansible
+  # config.vm.provision "shell", path: "#{github_url}/scripts/ansible.sh"
 
   ####
   # Local Scripts
