@@ -79,10 +79,10 @@ Vagrant.configure("2") do |config|
 
   #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
   #config.vm.network :forwarded_port, guest: 22, host: 2230, id: 'ssh', auto_correct: true
-  config.vm.network :forwarded_port, guest: 80, host: 8888, auto_correct: true #apache2
-  config.vm.network :forwarded_port, guest: 3306, host: 8889, auto_correct: true #mysqld
-  config.vm.network :forwarded_port, guest: 1025 , host: 8880, auto_correct: true #mailcatcher smtp
-  config.vm.network :forwarded_port, guest: 1080 , host: 8881, auto_correct: true #mailcatcher http
+  config.vm.network :forwarded_port, guest: 80, host: 8880, auto_correct: true #apache2
+  config.vm.network :forwarded_port, guest: 3306, host: 8881, auto_correct: true #mysqld
+  config.vm.network :forwarded_port, guest: 1025 , host: 8882, auto_correct: true #mailcatcher smtp
+  config.vm.network :forwarded_port, guest: 1080 , host: 8883, auto_correct: true #mailcatcher http
   config.vm.network :forwarded_port, guest: 4000 , host: 8884, auto_correct: true #jekyll
 
   # Use NFS for the shared folder
