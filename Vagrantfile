@@ -95,8 +95,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
   config.vm.network :forwarded_port, guest: 80, host: 8800, auto_correct: true #apache2
   config.vm.network :forwarded_port, guest: 3306, host: 8801, auto_correct: true #mysqld
-  config.vm.network :forwarded_port, guest: 1025 , host: 8825, auto_correct: true #mailcatcher smtp
-  config.vm.network :forwarded_port, guest: 1080 , host: 8826, auto_correct: true #mailcatcher http
+  config.vm.network :forwarded_port, guest: 1025 , host: 8802, auto_correct: true #mailcatcher smtp
+  config.vm.network :forwarded_port, guest: 1080 , host: 8803, auto_correct: true #mailcatcher http
   config.vm.network :forwarded_port, guest: 4000 , host: 8804, auto_correct: true #jekyll
 
   # Use NFS for the shared folder
@@ -174,7 +174,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # optimize base box
-  config.vm.provision "shell", path: "scripts/base_box_optimizations.sh", 
+  config.vm.provision "shell", path: "scripts/base_box_optimizations.sh",
     privileged: true
 
   # Provision PHP
