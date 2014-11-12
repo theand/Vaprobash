@@ -18,6 +18,7 @@ hostname        = "vaprobash14.dev"
 #   172.16.0.1  - 172.31.255.254
 #   192.168.0.1 - 192.168.255.254
 server_ip             = "192.168.22.12"
+server_cpus           = "1"   # Cores
 server_memory         = "512" # MB
 server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
 
@@ -116,6 +117,9 @@ Vagrant.configure("2") do |config|
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
     vb.name = "vaprobash14"
 
+    # Set server cpus
+    vb.customize ["modifyvm", :id, "--cpus", server_cpus]
+
     # Set server memory
     vb.customize ["modifyvm", :id, "--memory", server_memory]
 
@@ -174,8 +178,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "scripts/base-theand.sh"
 
   # optimize base box
-  config.vm.provision "shell", path: "scripts/base_box_optimizations.sh",
-    privileged: true
+  config.vm.provision "shell", path: "scripts/base_box_optimizations.sh", privileged: true
 
   # Provision PHP
   config.vm.provision "shell", path: "scripts/php.sh", args: [php_timezone, hhvm]
@@ -187,6 +190,9 @@ Vagrant.configure("2") do |config|
   # Provision Vim
    config.vm.provision "shell", path: "scripts/vim.sh", args: github_url
    config.vm.provision "shell", path: "scripts/vim-theand.sh"
+
+  # Provision Docker
+  # config.vm.provision "shell", path: "#{github_url}/scripts/docker.sh"
 
 
   ####
