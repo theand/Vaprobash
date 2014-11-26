@@ -37,6 +37,7 @@ mongo_enable_remote   = "false"  # remote access enabled when true
 
 # Languages and Packages
 php_timezone          = "Asia/Seoul"    # http://php.net/manual/en/timezones.php
+php_version           = "5.6"    # Options: 5.5 | 5.6
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
 ruby_gems             = [        # List any Ruby Gems that you want to install
   "jekyll",
@@ -75,6 +76,9 @@ nodejs_packages       = [          # List any global NodeJS packages that you wa
   "locally"
 ]
 
+sphinxsearch_version  = "rel22" # rel20, rel21, rel22, beta, daily, stable
+
+
 Vagrant.configure("2") do |config|
 
   # Set server to Ubuntu 14.04
@@ -83,6 +87,12 @@ Vagrant.configure("2") do |config|
   config.vm.define :vaprobash14 do |vapro|
   end
 
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+    config.hostmanager.enabled = true
+    config.hostmanager.manage_host = true
+    config.hostmanager.ignore_private_ip = false
+    config.hostmanager.include_offline = false
+  end
 
   # Create a hostname, don't forget to put it to the `hosts` file
   # This will point to the server's default virtual host
@@ -181,7 +191,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", path: "scripts/base_box_optimizations.sh", privileged: true
 
   # Provision PHP
-  config.vm.provision "shell", path: "scripts/php.sh", args: [php_timezone, hhvm]
+  config.vm.provision "shell", path: "scripts/php.sh", args: [php_timezone, hhvm, php_version]
   #config.vm.provision "shell", path: "scripts/php-theand.sh"
 
   # Enable MSSQL for PHP
@@ -242,7 +252,7 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/elasticsearch.sh"
 
   # Install SphinxSearch
-  # config.vm.provision "shell", path: "scripts/sphinxsearch.sh"
+  # config.vm.provision "shell", path: "scripts/sphinxsearch.sh", args: [sphinxsearch_version]
 
   ####
   # Search Server Administration (web-based)
