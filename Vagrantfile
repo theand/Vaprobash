@@ -63,7 +63,7 @@ nodejs_packages       = [          # List any global NodeJS packages that you wa
   "gulp",
   "bower",
   "yo",
-  "gig",
+  #"gig",
   "locally"
 ]
 
