@@ -3,6 +3,7 @@
 echo ">>> Installing Beanstalkd"
 
 # Install Beanstalkd
+# -qq implies -y --force-yes
 sudo apt-get install -qq beanstalkd
 
 # Set to start on system start

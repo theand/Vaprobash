@@ -6,7 +6,10 @@ echo ">>> Installing RethinkDB"
 sudo add-apt-repository -y ppa:rethinkdb/ppa
 
 # Update
+sudo launchpad-getkeys
+sudo apt-key update
 sudo apt-get update
 
 # Install
-sudo apt-get install rethinkdb -y --force-yes
+# -qq implies -y --force-yes
+sudo apt-get install -qq rethinkdb

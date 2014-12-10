@@ -52,9 +52,6 @@ else
         . /home/vagrant/.profile
     fi
 
-    if [[ -f "/home/vagrant/.zshrc" ]]; then
-        . /home/vagrant/.zshrc
-    fi
 fi
 
 # Install (optional) Ruby Gems
