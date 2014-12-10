@@ -84,6 +84,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 1025 , host: 8882, auto_correct: true #mailcatcher smtp
   config.vm.network :forwarded_port, guest: 1080 , host: 8883, auto_correct: true #mailcatcher http
   config.vm.network :forwarded_port, guest: 4000 , host: 8884, auto_correct: true #jekyll
+  config.vm.network :forwarded_port, guest: 3000 , host: 3000, auto_correct: true #rails
+  config.vm.network :forwarded_port, guest: 3100 , host: 3100, auto_correct: true #rails
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
