@@ -18,7 +18,7 @@ hostname        = "vaprobash14.dev"
 #   172.16.0.1  - 172.31.255.254
 #   192.168.0.1 - 192.168.255.254
 server_ip             = "192.168.22.12"
-server_cpus           = "1"   # Cores
+server_cpus           = "2"   # Cores
 server_memory         = "512" # MB
 server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
 
