@@ -15,7 +15,15 @@ github_branch   = "master"
 #   172.16.0.1  - 172.31.255.254
 #   192.168.0.1 - 192.168.255.254
 server_ip             = "192.168.22.10"
+server_cpus           = "2"   # Cores
 server_memory         = "512" # MB
+server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
+
+# UTC        for Universal Coordinated Time
+# EST        for Eastern Standard Time
+# US/Central for American Central
+# US/Eastern for American Eastern
+server_timezone       = "Asia/Seoul"
 server_timezone       = "Asia/Seoul"
 
 # Database Configuration
@@ -23,8 +31,7 @@ mysql_root_password   = "root"   # We'll assume user "root"
 mysql_version         = "5.5"    # Options: 5.5 | 5.6
 mysql_enable_remote   = "true"  # remote access enabled when true
 pgsql_root_password   = "root"   # We'll assume user "root"
-mariadb_version       = "10.0"   # Options: 5.5 | 10.0
-mariadb_root_password = "root"   # We'll assume user "root"
+mongo_enable_remote   = "false"  # remote access enabled when true
 
 # Languages and Packages
 ruby_version          = "latest" # Choose what ruby version should be installed (will also be the default version)
@@ -58,6 +65,9 @@ nodejs_packages       = [          # List any global NodeJS packages that you wa
   "gig",
   "locally"
 ]
+
+sphinxsearch_version  = "rel22" # rel20, rel21, rel22, beta, daily, stable
+
 
 Vagrant.configure("2") do |config|
 
@@ -94,7 +104,7 @@ Vagrant.configure("2") do |config|
 #:mount_options => ['nolock,vers=3,udp,noatime']
 :mount_options => [ "dmode=777", "fmode=777"]
 
-  config.vm.synced_folder "www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
+  config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
 
@@ -102,6 +112,9 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
 
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
+
+    # Set server cpus
+    vb.customize ["modifyvm", :id, "--cpus", server_cpus]
 
     # Set server memory
     vb.customize ["modifyvm", :id, "--memory", server_memory]
@@ -144,8 +157,11 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Base Packages
-  config.vm.provision "shell", path: "scripts/base.sh"
+  config.vm.provision "shell", path: "scripts/base.sh", args: [github_url, server_swap, server_timezone]
   config.vm.provision "shell", path: "scripts/base-theand.sh"
+
+  # optimize base box
+  config.vm.provision "shell", path: "scripts/base_box_optimizations.sh", privileged: true
 
   # Provision PHP
   config.vm.provision "shell", path: "scripts/php.sh", args: [php_version, server_timezone]
@@ -203,10 +219,10 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/couchdb.sh"
 
   # Provision MongoDB
-  # config.vm.provision "shell", path: "scripts/mongodb.sh"
+  # config.vm.provision "shell", path: "scripts/mongodb.sh", args: mongo_enable_remote
 
   # Provision MariaDB
-  # config.vm.provision "shell", path: "scripts/mariadb.sh", args: [mariadb_root_password, mariadb_version]
+  # config.vm.provision "shell", path: "scripts/mariadb.sh", args: [mysql_root_password, mysql_enable_remote]
 
   ####
   # Search Servers
@@ -216,7 +232,7 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/elasticsearch.sh"
 
   # Install SphinxSearch
-  # config.vm.provision "shell", path: "scripts/sphinxsearch.sh"
+  # config.vm.provision "shell", path: "scripts/sphinxsearch.sh", args: [sphinxsearch_version]
 
   ####
   # Search Server Administration (web-based)
@@ -261,7 +277,7 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Install Nodejs
-   config.vm.provision "shell", path: "scripts/nodejs.sh", args: nodejs_packages.unshift(nodejs_version)
+   config.vm.provision "shell", path: "scripts/nodejs.sh", privileged: false, args: nodejs_packages.unshift(nodejs_version, github_url)
 
   # Install Ruby Version Manager (RVM)
    config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)

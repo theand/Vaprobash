@@ -19,6 +19,7 @@ fi
 sudo add-apt-repository -y ppa:ondrej/apache2
 
 # Update Again
+sudo launchpad-getkeys
 sudo apt-key update
 sudo apt-get update
 
@@ -27,8 +28,15 @@ sudo apt-get install -qq  apache2-mpm-event libapache2-mod-fastcgi
 
 echo ">>> Configuring Apache"
 
+# Add vagrant user to www-data group
+sudo usermod -a -G www-data vagrant
+
 # Apache Config
-sudo a2enmod rewrite actions ssl
+# On separate lines since some may cause an error
+# if not installed
+sudo a2dismod mpm_prefork
+sudo a2dismod php5
+sudo a2enmod mpm_worker rewrite actions ssl
 curl -L https://gist.githubusercontent.com/fideloper/2710970/raw/vhost.sh > vhost
 sudo chmod guo+x vhost
 sudo mv vhost /usr/local/bin
