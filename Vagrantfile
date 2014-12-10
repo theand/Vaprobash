@@ -40,6 +40,7 @@ ruby_gems             = [        # List any Ruby Gems that you want to install
   "jekyll",
   "sass",
   "compass",
+  "rails"
 ]
 
 # HHVM Options
