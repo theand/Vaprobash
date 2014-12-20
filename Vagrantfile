@@ -43,6 +43,7 @@ ruby_gems             = [        # List any Ruby Gems that you want to install
   "jekyll",
   "sass",
   "compass",
+  "rails"
 ]
 
 # To install HHVM instead of PHP, set this to "true"
