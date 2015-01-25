@@ -77,6 +77,10 @@ nodejs_packages       = [          # List any global NodeJS packages that you wa
   "locally"
 ]
 
+# RabbitMQ settings
+rabbitmq_user = "user"
+rabbitmq_password = "password"
+
 sphinxsearch_version  = "rel22" # rel20, rel21, rel22, beta, daily, stable
 
 
@@ -295,6 +299,9 @@ Vagrant.configure("2") do |config|
 
   # Install ØMQ
   # config.vm.provision "shell", path: "scripts/scripts/zeromq.sh"
+
+  # Install RabbitMQ
+  # config.vm.provision "shell", path: "#{github_url}/scripts/rabbitmq.sh", args: [rabbitmq_user, rabbitmq_password]
 
   ####
   # Additional Languages
