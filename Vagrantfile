@@ -106,6 +106,7 @@ Vagrant.configure("2") do |config|
 
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
+  config.vm.network :forwarded_port, guest: 80, host: 8000
 
   #Port Forwarding
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
