@@ -37,6 +37,7 @@ mysql_root_password   = "root"   # We'll assume user "root"
 mysql_version         = "5.5"    # Options: 5.5 | 5.6
 mysql_enable_remote   = "true"  # remote access enabled when true
 pgsql_root_password   = "root"   # We'll assume user "root"
+mongo_version         = "2.6"    # Options: 2.6 | 3.0
 mongo_enable_remote   = "false"  # remote access enabled when true
 
 # Languages and Packages
@@ -120,11 +121,14 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 1080 , host: 8803, auto_correct: true #mailcatcher http
   config.vm.network :forwarded_port, guest: 4000 , host: 8804, auto_correct: true #jekyll
 
+  # Enable agent forwarding over SSH connections
+  config.ssh.forward_agent = true
+  
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
-		#id: "core",
-		#:nfs => true,
-		#:mount_options => ['nolock,vers=3,udp,noatime']
+		id: "core",
+		:nfs => true,
+		:mount_options => ['nolock,vers=3,udp,noatime']
 		:mount_options => [ "dmode=777", "fmode=777"]
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
@@ -249,10 +253,13 @@ Vagrant.configure("2") do |config|
   # config.vm.provision "shell", path: "scripts/couchdb.sh"
 
   # Provision MongoDB
-  # config.vm.provision "shell", path: "scripts/mongodb.sh", args: mongo_enable_remote
+  # config.vm.provision "shell", path: "scripts/mongodb.sh", args: [mongo_enable_remote, mongo_version]
 
   # Provision MariaDB
   # config.vm.provision "shell", path: "scripts/mariadb.sh", args: [mysql_root_password, mysql_enable_remote]
+
+  # Provision Neo4J
+  # config.vm.provision "shell", path: "scripts/neo4j.sh"
 
   ####
   # Search Servers
@@ -323,7 +330,8 @@ Vagrant.configure("2") do |config|
   ##########
 
   # Provision Composer
-   config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: composer_packages.join(" ")
+  # You may pass a github auth token as the first argument
+  # config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: ["", composer_packages.join(" ")]
 
   # Provision Laravel
   # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder, public_folder, laravel_version]
