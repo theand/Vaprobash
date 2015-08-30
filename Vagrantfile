@@ -51,6 +51,8 @@ ruby_gems             = [        # List any Ruby Gems that you want to install
   "rails"
 ]
 
+go_version            = "latest" # Example: go1.4 (latest equals the latest stable version)
+
 # To install HHVM instead of PHP, set this to "true"
 hhvm                  = "true"
 
@@ -123,7 +125,7 @@ Vagrant.configure("2") do |config|
 
   # Enable agent forwarding over SSH connections
   config.ssh.forward_agent = true
-  
+
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
 		id: "core",
@@ -134,6 +136,11 @@ Vagrant.configure("2") do |config|
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.provision :shell, :inline => "echo \"Asia/Seoul\"| sudo tee /etc/timezone && dpkg-reconfigure --frontend noninteractive tzdata"
+
+  # Replicate local .gitconfig file if it exists
+  if File.file?(File.expand_path("~/.gitconfig"))
+    config.vm.provision "file", source: "~/.gitconfig", destination: ".gitconfig"
+  end
 
   # If using VirtualBox
   config.vm.provider :virtualbox do |vb|
@@ -324,6 +331,9 @@ Vagrant.configure("2") do |config|
 
   # Install Ruby Version Manager (RVM)
    config.vm.provision "shell", path: "scripts/rvm.sh", privileged: false, args: ruby_gems.unshift(ruby_version)
+
+  # Install Go Version Manager (GVM)
+  # config.vm.provision "shell", path: "#{github_url}/scripts/go.sh", privileged: false, args: [go_version]
 
   ####
   # Frameworks and Tooling

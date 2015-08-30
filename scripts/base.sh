@@ -25,16 +25,6 @@ sudo apt-get update
 # -qq implies -y --force-yes
 sudo apt-get install -qq curl unzip git-core ack-grep vim tmux wget build-essential python-software-properties software-properties-common
 
-# Git Config and set Owner
-cat /vagrant/helpers/gitconfig > /home/vagrant/.gitconfig
-sudo chown vagrant:vagrant /home/vagrant/.gitconfig
-
-# Common fixes for git
-git config --global http.postBuffer 65536000
-
-# Cache http credentials for one day while pull/push
-git config --global credential.helper 'cache --timeout=86400'
-
 
 echo ">>> Installing *.xip.io self-signed SSL"
 
