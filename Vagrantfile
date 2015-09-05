@@ -15,16 +15,15 @@ github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github
 #   10.0.0.1    - 10.255.255.254
 #   172.16.0.1  - 172.31.255.254
 #   192.168.0.1 - 192.168.255.254
-server_ip             = "192.168.22.10"
+server_ip             = "192.168.22.16"
 server_cpus           = "2"   # Cores
-server_memory         = "512" # MB
+server_memory         = "768" # MB
 server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
 
 # UTC        for Universal Coordinated Time
 # EST        for Eastern Standard Time
 # US/Central for American Central
 # US/Eastern for American Eastern
-server_timezone       = "Asia/Seoul"
 server_timezone       = "Asia/Seoul"
 
 # Database Configuration
@@ -48,7 +47,7 @@ hhvm_use_fastcgi      = "false"  # Use HHVM as FastCGI (over php-fpm)
 hhvm_over_php         = "false"  # Symlink HHVM to PHP, so calls to PHP run via HHVM
 
 # PHP Options
-php_version           = "previous" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
+php_version           = "latest" # Options: latest|previous|distributed   For 12.04. latest=5.5, previous=5.4, distributed=5.3
 composer_packages     = [        # List any global Composer packages that you want to install
   #"phpunit/phpunit:4.0.*",
   #"codeception/codeception=*",
@@ -58,7 +57,7 @@ composer_packages     = [        # List any global Composer packages that you wa
 public_folder         = "/var/www" # If installing Symfony or Laravel, leave this blank to default to the framework public directory
 laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `composer install` if a composer.json file exists
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
-nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
+nodejs_version        = "v0.12.7"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   "grunt-cli",
   "gulp",
@@ -78,26 +77,26 @@ Vagrant.configure("2") do |config|
 
   config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-  config.vm.define :vaprobash
+  config.vm.define :vaprobash1256
 
 
   # Create a hostname, don't forget to put it to the `hosts` file
   # This will point to the server's default virtual host
   # TO DO: Make this work with virtualhost along-side xip.io URL
-  config.vm.hostname = "vaprobash.dev"
+  config.vm.hostname = "vaprobash1256.dev"
 
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
   #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
-  #config.vm.network :forwarded_port, guest: 22, host: 2230, id: 'ssh', auto_correct: true
-  config.vm.network :forwarded_port, guest: 80, host: 8880, auto_correct: true #apache2
-  config.vm.network :forwarded_port, guest: 3306, host: 8881, auto_correct: true #mysqld
-  config.vm.network :forwarded_port, guest: 1025 , host: 8882, auto_correct: true #mailcatcher smtp
-  config.vm.network :forwarded_port, guest: 1080 , host: 8883, auto_correct: true #mailcatcher http
-  config.vm.network :forwarded_port, guest: 4000 , host: 8884, auto_correct: true #jekyll
-  config.vm.network :forwarded_port, guest: 3000 , host: 3000, auto_correct: true #rails
-  config.vm.network :forwarded_port, guest: 3100 , host: 3100, auto_correct: true #rails
+  config.vm.network :forwarded_port, guest: 22, host: 2260, id: 'ssh', auto_correct: true
+  config.vm.network :forwarded_port, guest: 80, host: 8860, auto_correct: true #apache2
+  config.vm.network :forwarded_port, guest: 3306, host: 8861, auto_correct: true #mysqld
+  config.vm.network :forwarded_port, guest: 1025 , host: 8862, auto_correct: true #mailcatcher smtp
+  config.vm.network :forwarded_port, guest: 1080 , host: 8863, auto_correct: true #mailcatcher http
+  config.vm.network :forwarded_port, guest: 4000 , host: 8864, auto_correct: true #jekyll
+  config.vm.network :forwarded_port, guest: 3000 , host: 8865, auto_correct: true #rails
+  config.vm.network :forwarded_port, guest: 3100 , host: 8866, auto_correct: true #rails
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
