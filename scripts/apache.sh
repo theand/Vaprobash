@@ -24,7 +24,7 @@ sudo apt-key update
 sudo apt-get update
 
 # Install Apache
-sudo apt-get install -qq  apache2-mpm-event libapache2-mod-fastcgi
+sudo apt-get install -qq apache2 libapache2-mod-fastcgi #apache2-mpm-event 
 
 echo ">>> Configuring Apache"
 
