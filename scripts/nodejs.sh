@@ -44,7 +44,7 @@ if [[ $NODE_IS_INSTALLED -ne 0 ]]; then
     echo "    This will also be set as the default node version"
 
     # If set to latest, get the current node version from the home page
-    if [[ $NODEJS_VERSION -eq "latest" ]]; then
+    if [[ "$NODEJS_VERSION" -eq "latest" ]]; then
         NODEJS_VERSION=`curl -L 'nodejs.org' | grep 'Current Version' | awk '{ print $4 }' | awk -F\< '{ print $1 }'`
     fi
 
