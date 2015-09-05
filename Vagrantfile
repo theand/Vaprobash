@@ -21,9 +21,9 @@ hostname        = "vaprobash14.dev"
 #   10.0.0.1    - 10.255.255.254
 #   172.16.0.1  - 172.31.255.254
 #   192.168.0.1 - 192.168.255.254
-server_ip             = "192.168.22.12"
+server_ip             = "192.168.22.14"
 server_cpus           = "2"   # Cores
-server_memory         = "512" # MB
+server_memory         = "768" # MB
 server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
 
 # UTC        for Universal Coordinated Time
@@ -34,7 +34,7 @@ server_timezone       = "Asia/Seoul"
 
 # Database Configuration
 mysql_root_password   = "root"   # We'll assume user "root"
-mysql_version         = "5.5"    # Options: 5.5 | 5.6
+mysql_version         = "5.6"    # Options: 5.5 | 5.6
 mysql_enable_remote   = "true"  # remote access enabled when true
 pgsql_root_password   = "root"   # We'll assume user "root"
 mongo_version         = "2.6"    # Options: 2.6 | 3.0
@@ -54,7 +54,7 @@ ruby_gems             = [        # List any Ruby Gems that you want to install
 go_version            = "latest" # Example: go1.4 (latest equals the latest stable version)
 
 # To install HHVM instead of PHP, set this to "true"
-hhvm                  = "true"
+hhvm                  = "false"
 
 # PHP Options
 composer_packages     = [        # List any global Composer packages that you want to install
@@ -74,7 +74,8 @@ laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `com
 laravel_version       = "latest-stable" # If you need a specific version of Laravel, set it here
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
 
-nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
+nodejs_version        = "v0.12.7"   # By default "latest" will equal the latest stable version
+#nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   "grunt-cli",
   "gulp",
@@ -113,7 +114,6 @@ Vagrant.configure("2") do |config|
 
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
-  config.vm.network :forwarded_port, guest: 80, host: 8000
 
   #Port Forwarding
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
@@ -122,6 +122,8 @@ Vagrant.configure("2") do |config|
   config.vm.network :forwarded_port, guest: 1025 , host: 8802, auto_correct: true #mailcatcher smtp
   config.vm.network :forwarded_port, guest: 1080 , host: 8803, auto_correct: true #mailcatcher http
   config.vm.network :forwarded_port, guest: 4000 , host: 8804, auto_correct: true #jekyll
+  config.vm.network :forwarded_port, guest: 3000 , host: 8805, auto_correct: true #jekyll
+  config.vm.network :forwarded_port, guest: 3100 , host: 8806, auto_correct: true #jekyll
 
   # Enable agent forwarding over SSH connections
   config.ssh.forward_agent = true
@@ -131,7 +133,7 @@ Vagrant.configure("2") do |config|
 		id: "core",
 		:nfs => true,
 		:mount_options => ['nolock,vers=3,udp,noatime']
-		:mount_options => [ "dmode=777", "fmode=777"]
+		#:mount_options => [ "dmode=777", "fmode=777"]
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}
