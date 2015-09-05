@@ -17,7 +17,7 @@ github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github
 #   192.168.0.1 - 192.168.255.254
 server_ip             = "192.168.22.10"
 server_cpus           = "2"   # Cores
-server_memory         = "512" # MB
+server_memory         = "768" # MB
 server_swap           = "768" # Options: false | int (MB) - Guideline: Between one or two times the server_memory
 
 # UTC        for Universal Coordinated Time
@@ -90,14 +90,14 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: server_ip
 
   #SSH 포트를 바꾸고 싶을 때는 아래 내용을 주석처리하고 host: 에 원하는 포트 번호 기입.
-  #config.vm.network :forwarded_port, guest: 22, host: 2230, id: 'ssh', auto_correct: true
+  config.vm.network :forwarded_port, guest: 22, host: 2280, id: 'ssh', auto_correct: true
   config.vm.network :forwarded_port, guest: 80, host: 8880, auto_correct: true #apache2
   config.vm.network :forwarded_port, guest: 3306, host: 8881, auto_correct: true #mysqld
   config.vm.network :forwarded_port, guest: 1025 , host: 8882, auto_correct: true #mailcatcher smtp
   config.vm.network :forwarded_port, guest: 1080 , host: 8883, auto_correct: true #mailcatcher http
   config.vm.network :forwarded_port, guest: 4000 , host: 8884, auto_correct: true #jekyll
-  config.vm.network :forwarded_port, guest: 3000 , host: 3000, auto_correct: true #rails
-  config.vm.network :forwarded_port, guest: 3100 , host: 3100, auto_correct: true #rails
+  config.vm.network :forwarded_port, guest: 3000 , host: 8885, auto_correct: true #rails
+  config.vm.network :forwarded_port, guest: 3100 , host: 8886, auto_correct: true #rails
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
