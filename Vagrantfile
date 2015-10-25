@@ -74,8 +74,7 @@ laravel_root_folder   = "/vagrant/laravel" # Where to install Laravel. Will `com
 laravel_version       = "latest-stable" # If you need a specific version of Laravel, set it here
 symfony_root_folder   = "/vagrant/symfony" # Where to install Symfony.
 
-nodejs_version        = "v0.12.7"   # By default "latest" will equal the latest stable version
-#nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
+nodejs_version        = "latest"   # By default "latest" will equal the latest stable version
 nodejs_packages       = [          # List any global NodeJS packages that you want to install
   "grunt-cli",
   "gulp",
@@ -130,10 +129,9 @@ Vagrant.configure("2") do |config|
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
-		id: "core",
-		:nfs => true,
-		:mount_options => ['nolock,vers=3,udp,noatime']
-		#:mount_options => [ "dmode=777", "fmode=777"]
+            id: "core",
+            :nfs => true,
+            :mount_options => ['nolock,vers=3,udp,noatime,actimeo=2']
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}
@@ -318,6 +316,9 @@ Vagrant.configure("2") do |config|
   # Install Supervisord
   # config.vm.provision "shell", path: "scripts/supervisord.sh"
 
+  # Install Kibana
+  # config.vm.provision "shell", path: "scripts/kibana.sh"
+
   # Install ØMQ
   # config.vm.provision "shell", path: "scripts/scripts/zeromq.sh"
 
@@ -343,7 +344,7 @@ Vagrant.configure("2") do |config|
 
   # Provision Composer
   # You may pass a github auth token as the first argument
-  # config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: ["", composer_packages.join(" ")]
+  # config.vm.provision "shell", path: "scripts/composer.sh", privileged: false, args: [github_pat, composer_packages.join(" ")]
 
   # Provision Laravel
   # config.vm.provision "shell", path: "scripts/laravel.sh", args: [server_ip, laravel_root_folder, public_folder, laravel_version]
