@@ -9,7 +9,8 @@ sudo ln -s /vagrant/vhost/hr-dks.dev.conf
 sudo ln -s /vagrant/vhost/hr-dkt.dev.conf
 sudo ln -s /vagrant/vhost/ui.dev.conf
 sudo ln -s /vagrant/vhost/synonym.conf
-sudo ln -s /vagrant/vhost/shittoy.dev.conf
+sudo ln -s /vagrant/vhost/arttoy.dev.conf
+sudo ln -s /vagrant/vhost/arttoy-admin.dev.conf
 
 sudo a2ensite book-new.dev.conf
 sudo a2ensite clean-center.dev.conf
@@ -19,6 +20,7 @@ sudo a2ensite hr-dks.dev.conf
 sudo a2ensite hr-dkt.dev.conf
 sudo a2ensite ui.dev.conf
 sudo a2ensite synonym.conf
-sudo a2ensite shittoy.dev.conf
+sudo a2ensite arttoy.dev.conf
+sudo a2ensite arttoy-admin.dev.conf
 
 sudo service apache2 restart
