@@ -146,7 +146,7 @@ Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
 
     vb.customize ["setextradata", :id, "VBoxInternal2/SharedFoldersEnableSymlinksCreate/v-root", "1"]
-    vb.name = "vaprobash14"
+    vb.name = hostname
 
     # Set server cpus
     vb.customize ["modifyvm", :id, "--cpus", server_cpus]
