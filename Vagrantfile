@@ -4,7 +4,7 @@
 # Config Github Settings
 github_username = "fideloper"
 github_repo     = "Vaprobash"
-github_branch   = "1.4.1"
+github_branch   = "1.4.2"
 github_url      = "https://raw.githubusercontent.com/#{github_username}/#{github_repo}/#{github_branch}"
 
 # Because this:https://developer.github.com/changes/2014-12-08-removing-authorizations-token/
@@ -112,7 +112,12 @@ Vagrant.configure("2") do |config|
   config.vm.hostname = hostname
 
   # Create a static IP
-  config.vm.network :private_network, ip: server_ip
+  if Vagrant.has_plugin?("vagrant-auto_network")
+    config.vm.network :private_network, :ip => "0.0.0.0", :auto_network => true
+  else
+    config.vm.network :private_network, ip: server_ip
+  end
+
 
   #Port Forwarding
   config.vm.network :forwarded_port, guest: 22, host: 2200, id: 'ssh', auto_correct: true
@@ -129,9 +134,9 @@ Vagrant.configure("2") do |config|
 
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
-            id: "core",
-            :nfs => true,
-            :mount_options => ['nolock,vers=3,udp,noatime,actimeo=2']
+    id: "core",
+    :nfs => true,
+    :mount_options => ['nolock,vers=3,udp,noatime,actimeo=2,fsc']
 
   config.vm.synced_folder "../www", "/var/www", {:mount_options => ['dmode=777','fmode=777']}
   config.vm.synced_folder "..", "/home/vagrant/Works", {:mount_options => ['dmode=777','fmode=777']}

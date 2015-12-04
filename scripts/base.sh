@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 
-echo "Setting Timezone & Locale to $3 & C.UTF-8"
+echo "Setting Timezone & Locale to $3 & en_US.UTF-8"
 
 sudo ln -sf /usr/share/zoneinfo/$3 /etc/localtime
 sudo apt-get install -qq language-pack-en
 sudo locale-gen en_US
 sudo update-locale LANG=en_US.UTF-8 LC_CTYPE=en_US.UTF-8
-
-echo "export LANG=C.UTF-8" >> /home/vagrant/.bashrc
 
 echo ">>> Installing Base Packages"
 
@@ -24,7 +22,7 @@ sudo apt-get update
 
 # Install base packages
 # -qq implies -y --force-yes
-sudo apt-get install -qq curl unzip git-core ack-grep vim tmux wget build-essential python-software-properties software-properties-common
+sudo apt-get install -qq curl unzip git-core ack-grep vim tmux wget build-essential python-software-properties software-properties-common cachefilesd
 
 
 echo ">>> Installing *.xip.io self-signed SSL"
@@ -82,3 +80,6 @@ fi
 
 # Enable case sensitivity
 shopt -u nocasematch
+
+# Enable cachefilesd
+echo "RUN=yes" > /etc/default/cachefilesd
